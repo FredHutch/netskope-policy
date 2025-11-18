@@ -1,0 +1,114 @@
+{
+  "tenant": "your-tenant-name",
+  "api_token": "your-api-token-here",
+  "api_version": "v2",
+  "organization_name": "Your Healthcare Organization",
+  "timeout": 30,
+  "max_retries": 3,
+  "enable_logging": true,
+
+  "deployment_profiles": {
+    "healthcare-foundation": {
+      "description": "Core healthcare policies for PHI protection and threat prevention",
+      "includes": ["phi_protection", "threat_protection"]
+    },
+    "phi-protection": {
+      "description": "HIPAA-compliant PHI protection policies",
+      "includes": ["dlp_profiles", "dlp_policies"]
+    },
+    "threat-protection": {
+      "description": "Comprehensive threat protection including ransomware",
+      "includes": ["ransomware", "malware", "phishing", "c2_blocking"]
+    },
+    "research-protection": {
+      "description": "Clinical research data protection policies",
+      "includes": ["research_dlp", "genomic_data_protection"]
+    },
+    "all": {
+      "description": "All healthcare policies",
+      "includes": [
+        "phi_protection",
+        "threat_protection",
+        "research_protection",
+        "cloud_app_controls",
+        "web_filtering"
+      ]
+    }
+  },
+
+  "sanctioned_apps": [
+    "Epic MyChart",
+    "Cerner",
+    "Box",
+    "Microsoft Teams",
+    "Zoom for Healthcare",
+    "Office 365",
+    "SharePoint Online",
+    "OneDrive for Business",
+    "Salesforce Health Cloud"
+  ],
+
+  "unsanctioned_apps": [
+    "Personal Dropbox",
+    "Personal Google Drive",
+    "WeTransfer",
+    "Personal OneDrive",
+    "WhatsApp Web",
+    "Telegram Web",
+    "Personal Box"
+  ],
+
+  "web_filtering": {
+    "block_categories": [
+      "Malware",
+      "Phishing",
+      "Spam",
+      "Adult Content",
+      "Illegal Activities",
+      "Gambling",
+      "Hacking"
+    ],
+    "alert_categories": [
+      "Peer-to-Peer",
+      "Anonymizers",
+      "Remote Access",
+      "Cloud Storage (Personal)"
+    ]
+  },
+
+  "phi_patterns": {
+    "mrn_pattern": "\\b(MRN|MR#|Medical Record)[\\s:#-]*([0-9]{7,10})\\b",
+    "custom_patient_id": "\\bPT-[0-9]{6}\\b",
+    "facility_id": "\\bFAC-[A-Z]{2}-[0-9]{4}\\b"
+  },
+
+  "departments": [
+    {
+      "name": "Oncology",
+      "user_group": "oncology_users",
+      "allowed_apps": ["Epic MyChart", "Cerner", "Box", "Office 365"],
+      "block_external_sharing": true
+    },
+    {
+      "name": "Clinical Research",
+      "user_group": "research_users",
+      "allowed_apps": ["Box", "Office 365", "Salesforce Health Cloud"],
+      "block_external_sharing": true
+    },
+    {
+      "name": "Administration",
+      "user_group": "admin_users",
+      "allowed_apps": ["Office 365", "SharePoint Online"],
+      "block_external_sharing": false
+    }
+  ],
+
+  "vendors": [
+    {
+      "name": "CRO Partner",
+      "user_group": "vendor_cro",
+      "allowed_apps": ["Box"],
+      "enable_dlp": true
+    }
+  ]
+}
